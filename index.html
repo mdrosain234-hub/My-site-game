@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fun Mini game </title>
+
+<style>
+
+body{
+background: linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d);
+font-family: Arial;
+text-align:center;
+color:white;
+padding:20px;
+}
+
+.box{
+background:rgba(0,0,0,0.4);
+padding:20px;
+margin:20px;
+border-radius:15px;
+}
+
+button{
+padding:12px 20px;
+font-size:18px;
+border:none;
+border-radius:8px;
+background:#00e6e6;
+cursor:pointer;
+margin:5px;
+}
+
+button:hover{
+background:#00b3b3;
+transform:scale(1.1);
+}
+
+.choice{
+font-size:50px;
+margin:10px;
+animation: pop 0.5s ease;
+}
+
+@keyframes pop{
+0%{transform:scale(0);}
+100%{transform:scale(1);}
+}
+
+</style>
+
+<script>
+
+let score = 0;
+function addScore(){
+score++;
+document.getElementById("score").innerHTML = score;
+}
+
+let number = Math.floor(Math.random()*10)+1;
+function check(){
+let guess = document.getElementById("guess").value;
+
+if(guess == number){
+alert("🎉 Sahi guess! Tum jeet gaye!");
+}
+else{
+alert("❌ Galat guess! Fir try karo");
+}
+}
+
+function play(user){
+
+let choices = ["rock","paper","scissors"];
+let icons = {
+rock:"🪨",
+paper:"📄",
+scissors:"✂"
+};
+
+let computer = choices[Math.floor(Math.random()*3)];
+
+document.getElementById("userChoice").innerHTML = icons[user];
+document.getElementById("compChoice").innerHTML = icons[computer];
+
+if(user == computer){
+document.getElementById("result").innerHTML = "Draw 🤝";
+}
+else if(
+(user=="rock" && computer=="scissors") ||
+(user=="paper" && computer=="rock") ||
+(user=="scissors" && computer=="paper")
+){
+document.getElementById("result").innerHTML = "You Win 🎉";
+}
+else{
+document.getElementById("result").innerHTML = "Computer Win 🤖";
+}
+
+}
+
+let time = 10;
+let clickScore = 0;
+let timer;
+
+function startGame(){
+
+time = 10;
+clickScore = 0;
+
+document.getElementById("time").innerHTML = time;
+document.getElementById("clickScore").innerHTML = clickScore;
+
+timer = setInterval(function(){
+
+time--;
+document.getElementById("time").innerHTML = time;
+
+if(time==0){
+clearInterval(timer);
+alert("Time Over! Score: "+clickScore);
+}
+
+},1000);
+
+}
+
+function clickGame(){
+clickScore++;
+document.getElementById("clickScore").innerHTML = clickScore;
+}
+
+function resetGame(){
+clearInterval(timer);
+time = 10;
+clickScore = 0;
+
+document.getElementById("time").innerHTML = time;
+document.getElementById("clickScore").innerHTML = clickScore;
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h1>🎮 Fun Mini Games Website</h1>
+
+<div class="box">
+<h2>Click Game</h2>
+<p>Score: <span id="score">0</span></p>
+<button onclick="addScore()">Click Me</button>
+</div>
+
+<div class="box">
+<h2>Number Guess Game</h2>
+<p>1 se 10 ke beech number guess karo</p>
+<input type="number" id="guess">
+<br><br>
+<button onclick="check()">Check</button>
+</div>
+
+<div class="box">
+<h2>Rock Paper Scissors</h2>
+
+<p>You: <span id="userChoice" class="choice">❔</span></p>
+<p>Computer: <span id="compChoice" class="choice">❔</span></p>
+
+<p id="result">Choose one</p>
+
+<button onclick="play('rock')">🪨 Rock</button>
+<button onclick="play('paper')">📄 Paper</button>
+<button onclick="play('scissors')">✂ Scissors</button>
+
+</div>
+
+<div class="box">
+<h2>10 Second Click Game</h2>
+
+<p>Time: <span id="time">10</span></p>
+<p>Score: <span id="clickScore">0</span></p>
+
+<button onclick="startGame()">Start</button>
+<button onclick="clickGame()">Click Fast</button>
+<button onclick="resetGame()">Reset</button>
+
+</div>
+
+</body>
+</html>
+<div class="box">
+
+<h2>🎲 Dice Roll Game</h2>
+
+<div id="diceBox">🎲</div>
+
+<p id="diceResult"></p>
+
+<button onclick="rollDice()">Roll Dice</button>
+
+</div>
+
+<style>
+
+#diceBox{
+font-size:70px;
+margin:10px;
+transition: transform 0.5s;
+}
+
+.roll{
+transform: rotate(360deg) scale(1.2);
+}
+
+</style>
+
+<script>
+
+function rollDice(){
+
+let dice=document.getElementById("diceBox");
+
+dice.classList.add("roll");
+
+setTimeout(function(){
+
+dice.classList.remove("roll");
+
+let num=Math.floor(Math.random()*6)+1;
+
+let faces=["⚀","⚁","⚂","⚃","⚄","⚅"];
+
+dice.innerHTML=faces[num-1];
+
+document.getElementById("diceResult").innerHTML="Number: "+num;
+
+},500);
+
+}
+
+</script>
+<div class="box">
+
+<h2>🧠 Math Challenge</h2>
+
+<p>Difficulty:</p>
+
+<button onclick="setLevel('easy')">Easy</button>
+<button onclick="setLevel('medium')">Medium</button>
+<button onclick="setLevel('hard')">Hard</button>
+
+<p>⏱ Time: <span id="mathTime">30</span></p>
+<p>🏆 Score: <span id="mathScore">0</span></p>
+<p>⭐ High Score: <span id="mathHigh">0</span></p>
+
+<h3 id="mathQuestion">Select Difficulty</h3>
+
+<input id="mathAnswer" type="number" placeholder="Answer">
+
+<br><br>
+
+<button onclick="mathSubmit()">Submit</button>
+<button onclick="mathStart()">Start Game</button>
+
+</div>
+
+<div id="popup" style="display:none;font-size:25px;margin-top:10px;"></div>
+
+<script>
+
+let mScore=0;
+let mTime=30;
+let mCorrect=0;
+let mTimer;
+let level="easy";
+
+let mHigh=localStorage.getItem("mathHighScore") || 0;
+document.getElementById("mathHigh").innerText=mHigh;
+
+function setLevel(lvl){
+level=lvl;
+document.getElementById("mathQuestion").innerText="Press Start";
+}
+
+function newMathQuestion(){
+
+let n1,n2;
+
+if(level=="easy"){
+n1=Math.floor(Math.random()*10)+1;
+n2=Math.floor(Math.random()*10)+1;
+}
+
+if(level=="medium"){
+n1=Math.floor(Math.random()*30)+5;
+n2=Math.floor(Math.random()*20)+5;
+}
+
+if(level=="hard"){
+n1=Math.floor(Math.random()*50)+10;
+n2=Math.floor(Math.random()*30)+10;
+}
+
+let type=Math.floor(Math.random()*5);
+
+let q="";
+
+if(type==0){
+mCorrect=n1+n2;
+q=n1+" + "+n2+" = ?";
+}
+
+if(type==1){
+mCorrect=n1*n2;
+q=n1+" × "+n2+" = ?";
+}
+
+if(type==2){
+mCorrect=n1*n1;
+q=n1+"² = ?";
+}
+
+if(type==3){
+mCorrect=n1*n1*n1;
+q=n1+"³ = ?";
+}
+
+if(type==4){
+mCorrect=n1;
+q=(n1*n2)+" ÷ "+n2+" = ?";
+}
+
+document.getElementById("mathQuestion").innerText=q;
+
+}
+
+function showPopup(text,color){
+
+let p=document.getElementById("popup");
+
+p.style.display="block";
+p.style.color=color;
+p.innerText=text;
+
+setTimeout(()=>{
+
+p.style.display="none";
+
+},800);
+
+}
+
+function mathSubmit(){
+
+let ans=document.getElementById("mathAnswer").value;
+
+if(ans==mCorrect){
+
+mScore++;
+
+document.getElementById("mathScore").innerText=mScore;
+
+showPopup("✔ Correct","lime");
+
+document.getElementById("mathAnswer").value="";
+
+newMathQuestion();
+
+}else{
+
+showPopup("✖ Wrong","red");
+
+}
+
+}
+
+function mathStart(){
+
+if(mTimer) return; 
+
+mScore=0;
+mTime=30;
+
+document.getElementById("mathScore").innerText=0;
+document.getElementById("mathTime").innerText=mTime;
+
+newMathQuestion();
+
+mTimer=setInterval(function(){
+
+mTime--;
+
+document.getElementById("mathTime").innerText=mTime;
+
+if(mTime<=0){
+
+clearInterval(mTimer);
+mTimer=null;
+
+if(mScore>mHigh){
+localStorage.setItem("mathHighScore",mScore);
+document.getElementById("mathHigh").innerText=mScore;
+}
+
+alert("Time Over! Score: "+mScore);
+
+}
+
+},1000);
+
+}
+
+</script>
